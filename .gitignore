@@ -1,0 +1,24 @@
+*.log
+*.pid
+Dictionary.sql
+# COMPOSE/
+# COMPOSE/flask/project/
+
+# flask/
+flask/project/
+flask/static/
+flask/templates/
+flask/app0.py
+flask_Dockerfile
+uwsgi-docker.ini
+flask/*.bck
+flask/*.log
+# mysql/
+data_log/
+datalog/
+# nginx/
+log/
+# redis/
+dump.rdb
+redis/node*
+kubernetes/*
