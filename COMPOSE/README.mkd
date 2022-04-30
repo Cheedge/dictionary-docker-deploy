@@ -1,0 +1,29 @@
+Version: 1
+
+Maintainer: CheedgeLee@gmail.com
+
+Compose: docker-compose.yml
+
+Description:
+
+	A German learning dictionary app used Nginx (as proxy Server connect with uwsgi Server), flask (main app), Redis(as cache) and Mysql (master-slave mode: users read from slave), deployed on docker.
+
+Use:
+
+	`docker-compose up`:		create/start the containers.
+	`docker-compose down`:		stop (or use Crl+c)
+	Clean_docker_compose.sh:	
+		clean all the logs different containers create and find running container pid and stop them, the find all the docker containers id remove them, then also remove all the composed images.
+
+
+
+
+
+
+
+TODO:
+
+	1. make order for mysql_master and mysql_slave
+	2. in mysql replace Default Authentication Plugin=mysql_native_password by caching_sha2_password
+	3. redis also use master-slave
+	4. complete the functionility of app
