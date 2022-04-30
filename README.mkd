@@ -1,0 +1,18 @@
+TODO:
+
+    1. commit new_app and nginxapp, and make the final image
+    2. use mysql docker
+    3. use redis cluster docker
+    4. docker compose
+    4. summary
+
+
+* five containers (in starting order):
+    + db_master container, image(mysql:8.0)
+    + db_slave container, image(mysql:8.0)
+    + cache image(redis)
+    + flask container image(python:3.8), build by Dockerfile, (using uwsgi as server, unix socket)
+    + nginx image(nginx), build by Dockerfile, expose: 8089
+* a self defined network, distribute ipv4_address to containers
+* volumes on host machine
+* managed by docker-compose with clean-app.s
