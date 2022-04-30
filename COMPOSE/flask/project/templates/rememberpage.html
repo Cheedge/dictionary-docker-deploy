@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}
+    Remmeber list
+{% endblock title %}
+{% block content %}
+
+<div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <button class="nav-link active" id="nav-usr-dict-tab" data-bs-toggle="tab" data-bs-target="#nav-usr-dict" type="button" role="tab" aria-controls="nav-usr-dict" aria-selected="true">User List</button>
+    <button class="nav-link" id="nav-dict-tab" data-bs-toggle="tab" data-bs-target="#nav-dict" type="button" role="tab" aria-controls="nav-dict" aria-selected="false">Dictionary List</button>
+    <!-- <button class="nav-link" id="nav-newadd-tab" data-bs-toggle="tab" data-bs-target="#nav-newadd" type="button" role="tab" aria-controls="nav-newadd" aria-selected="false">New Add</button> -->
+</div>
+
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-usr-dict" role="tabpanel" aria-labelledby="nav-usr-dict-tab">
+        <table class="table table-striped table-hover" id="newadd_tb">
+            <tr>
+                <th>German</th>
+                <th>English</th>
+                <th>Note</th>
+                <th>Delte</th>
+            </tr>
+            {% for ger_w, eng_w, note_w in zip_list %}
+                <tr>
+                    <td class="word_ger">{{ ger_w }}</td>
+                    <td class="word_eng">{{ eng_w }}</td>
+                    <td class="word_note">{{ note_w }}</td>
+                    <td><button class="btn btn-warning" name="delete_button">Delete</button></td>
+                </tr>
+            {% endfor %}
+            <!-- <tr>
+                <td>morgen</td>
+                <td>morning</td>
+                <td>gut morgen</td>
+                <td><button class="btn btn-outline-success" type="submit" name="newadd_button">Add</button></td>
+            </tr> -->
+
+
+            
+        </table>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="modal_confirm">Confirm</button>
+        </div>
+        
+    </div>
+
+
+
+
+    <div class="tab-pane fade" id="nav-dict" tabindex="-1" aria-labelledby="nav-dict-tab" aria-hidden="true">
+        <table class="table table-striped table-hover" id="nav-dict-tb">
+            <tr>
+                <th>German</th>
+                <th>English</th>
+                <th>Note</th>
+                <th>Add</th>
+            </tr>
+            {% for ger_w, eng_w, note_w in total_zip_list %}
+                <tr>
+                    <td class="word_ger">{{ ger_w }}</td>
+                    <td class="word_eng">{{ eng_w }}</td>
+                    <td class="word_note">{{ note_w }}</td>
+                    <td><button class="btn btn-outline-success" type="submit" name="newadd_button">Add</button></td>
+                </tr>
+            {% endfor %} 
+        </table>
+        <button type="button" class="btn btn-secondary float-end" type="submit" id="newadd2dict">Add to Dictionary</button>
+        <!-- <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="edit_modal_label">Add New Word</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">German</label>
+                            <input type="text" class="form-control" id="modal_ger">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">English</label>
+                            <input type="text" class="form-control" id="modal_eng">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message-text" class="col-form-label">Note</label>
+                            <textarea class="form-control" id="modal_note"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="modal_confirm">Confirm</button>
+                </div>
+            </div>
+        </div> -->
+    </div>        
+
+
+
+        
+
+</div>
+{% endblock content %}
