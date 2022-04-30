@@ -1,0 +1,93 @@
+services:
+  nginx:
+    build: ./nginx
+    container_name: nginx_v1
+    ports:
+      - "8080:80"
+    expose:
+      - "8080"
+    networks:
+      dict-v1-net:
+        ipv4_address: 172.21.0.6
+    depends_on:
+      - web_app
+    command:
+      nginx -c /project/nginx.conf -g 'daemon off;'
+    # restart: always
+
+  web_app:
+    build: ./flask
+    container_name: flaskapp_v1
+    ports:
+      - "5000:5000"
+    expose:
+      - "5000"
+    depends_on:
+      - db_slave
+      - cache
+    networks:
+      dict-v1-net:
+        ipv4_address: 172.21.0.5
+    volumes:
+      - /root/Nginx_Flask/docker/COMPOSE/flask/project:/project
+    command:
+      uwsgi --ini uwsgi.ini  
+    # restart: always
+
+  cache:
+    image: redis
+    container_name: cache_redis_v1
+    ports:
+      - "6386:6379"
+    networks:
+      dict-v1-net:
+        ipv4_address: 172.21.0.4
+    volumes:
+      - /root/Nginx_Flask/docker/COMPOSE/redis/myredis/:/data
+    command:
+      redis-server /data/redis.conf
+
+  db_slave:
+    build: ./mysql/slave
+    container_name: db_slave_v1
+    environment:
+      MYSQL_ROOT_PASSWORD: "Mysql_666"
+      MASTER_CONTAINER: "db_master_v1"
+      MYSQL_DATABASE: "Dictionary"
+      # MYSQL_USER: "root" only for create a normal user not root
+      # MYSQL_PASSWORD: "Mysql_666"
+    ports:
+      - "3310:3306"
+    volumes:
+      - /root/Nginx_Flask/docker/COMPOSE/mysql/slave/datalog:/var/lib/mysql
+      - /root/Nginx_Flask/docker/COMPOSE/mysql/slave/conf:/etc/mysql/conf.d
+    depends_on:
+      - db_master
+    networks:
+      dict-v1-net:
+        ipv4_address: 172.21.0.3
+    # command:
+
+  db_master:
+    build: ./mysql/master/
+    container_name: db_master_v1
+    environment:
+      MYSQL_ROOT_PASSWORD: "Mysql_666"
+      MYSQL_DATABASE: "Dictionary"
+    ports:
+      - "3307:3306"
+    volumes:
+      - /root/Nginx_Flask/docker/COMPOSE/mysql/master/datalog:/var/lib/mysql
+      - /root/Nginx_Flask/docker/COMPOSE/mysql/master/conf:/etc/mysql/conf.d
+    networks:
+      dict-v1-net:
+        ipv4_address: 172.21.0.2
+    # command:
+
+networks:
+  dict-v1-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24
+          gateway: 172.21.0.1
